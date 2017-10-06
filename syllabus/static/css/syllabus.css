@@ -20,11 +20,10 @@ table .class-schedule: {
     padding: 3px;
 }
 
-/* Added code */
+/* Add a red highlight for the current week */
 tr.current {
     background-color: rgb(200,50,50);
     }
-/* Stop added code */
 
 tr.odd {
     /* A little darker */

@@ -23,7 +23,6 @@ def process(raw):
     entry = {}
     cooked = []
     current_week = 1
-    add_week = -1
     t_f = 0
     for line in raw:
         log.debug("Line: {}".format(line))
@@ -52,20 +51,25 @@ def process(raw):
             except:
                 raise ValueError("Unable to parse date {}".format(content))
 
+        # Check if we are in the week column
         elif field == "week":
             if entry:
                 cooked.append(entry)
                 entry = {}
+                # Check if the computer's current time is in the week
+                # we are about to display.
                 if base <= current_time <= base_plus:
                     t_f = 1
                 else:
                     t_f = 0
+            # Entries for the html file to handle
             entry['date'] = base
             entry['current'] = t_f
             entry['topic'] = ""
             entry['project'] = ""
             entry['week'] = content
             current_week += 1
+            # Shift the weeks by one into the future
             base = base.shift(weeks=+1)
             base_plus = base_plus.shift(weeks=+1)
 
