@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 
 base = arrow.now()   # Default, replaced if file has 'begin: ...'
 
+current_time = arrow.get()
 
 def process(raw):
     """
@@ -21,6 +22,9 @@ def process(raw):
     field = None
     entry = {}
     cooked = []
+    current_week = 1
+    add_week = -1
+    t_f = 0
     for line in raw:
         log.debug("Line: {}".format(line))
         line = line.strip()
@@ -33,6 +37,7 @@ def process(raw):
             continue
         if len(parts) == 2:
             field = parts[0]
+            # content is the next str after :
             content = parts[1]
         else:
             raise ValueError("Trouble with line: '{}'\n".format(line) +
@@ -40,7 +45,9 @@ def process(raw):
 
         if field == "begin":
             try:
+                # base is date at top of schedule.txt in proper format
                 base = arrow.get(content, "MM/DD/YYYY")
+                base_plus = base.shift(weeks=+1)
                 # print("Base date {}".format(base.isoformat()))
             except:
                 raise ValueError("Unable to parse date {}".format(content))
@@ -49,9 +56,18 @@ def process(raw):
             if entry:
                 cooked.append(entry)
                 entry = {}
+                if base <= current_time <= base_plus:
+                    t_f = 1
+                else:
+                    t_f = 0
+            entry['date'] = base
+            entry['current'] = t_f
             entry['topic'] = ""
             entry['project'] = ""
             entry['week'] = content
+            current_week += 1
+            base = base.shift(weeks=+1)
+            base_plus = base_plus.shift(weeks=+1)
 
         elif field == 'topic' or field == 'project':
             entry[field] = content
