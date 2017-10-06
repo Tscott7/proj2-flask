@@ -14,7 +14,7 @@
 <table class="class-schedule">
   {% for entry in g.schedule %}
   {% if entry.current == 1 %}
-  <tr class="current">
+    <tr class="current">
     {% elif loop.index is divisibleby 2 %}
     <tr class="even">
     {% else %}

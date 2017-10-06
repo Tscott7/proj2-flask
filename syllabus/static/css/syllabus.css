@@ -20,6 +20,11 @@ table .class-schedule: {
     padding: 3px;
 }
 
+/* Added code */
+tr.current {
+    }
+/* Stop added code */
+
 tr.odd {
     /* A little darker */
     background-color: rgb(216,202,160);
@@ -30,11 +35,6 @@ tr.even {
     background-color: rgb(224,213,179);
 }
 
-/* Added code */
-tr.current {
-    background-color: rgb(0,0,0);
-    }
-/* Stop added code */
 
 .class-schedule .week {
     
