@@ -22,6 +22,7 @@ table .class-schedule: {
 
 /* Added code */
 tr.current {
+    background-color: rgb(200,50,50);
     }
 /* Stop added code */
 
